@@ -19,7 +19,7 @@ publicly available docker containers. Run the following command on your master n
 
 ```sh
 # deploy the default manifest
-kubectl apply -f https://raw.githubusercontent.com/hamzehkhazaei/EECS4222_Project_1/master/files/online-boutique.yaml
+kubectl apply -f https://raw.githubusercontent.com/hamzehkhazaei/EECS6446_Project/master/files/online-boutique.yaml
 ```
 
 It may take up to 10 minutes for the deployment to be up and running. You can

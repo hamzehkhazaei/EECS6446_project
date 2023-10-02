@@ -1,5 +1,5 @@
 # EECS6446: Analytical Performance Modeling and Design of Computing Systems: Project 1 (15%)
-**Title:** Autoscaling for Microservices in Cloud    
+**Title:** Horizontal Autoscaling for Cloud Microservices
    
 
 Welcome to `EECS6446` course project. In this project, you will deploy a sample
