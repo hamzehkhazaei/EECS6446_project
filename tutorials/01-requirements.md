@@ -23,7 +23,8 @@ Throughout this tutorial, we assume a cluster of following nodes: </br>
 2. Worker node: server2 with IP address 192.168.0.101
 3. Cluster head: server3 with IP address 192.168.0.102
 
-<!-- Note: You have access to 4 VMs this semester;  -->
+#### Note: you have access to 4 VMs this semester; you may use the 4th one as your second Worker node.
+
 <!-- ## OpenVPN Connection
 
 To gain access to your VMs on our cloud, you will need to connect to our internal
