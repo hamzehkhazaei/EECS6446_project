@@ -7,21 +7,21 @@ Kubernetes' built-in autosclaer called [Horizontal Pod Autoscaler (HPA)](https:/
 Clone this project's git repository:
 
 ```console
-$ git clone https://github.com/hamzehkhazaei/EECS4222_Project_1
+$ git clone https://github.com/hamzehkhazaei/EECS6446_Project
 ```
 
 Before moving to our jupyter notebook, we need to install the dependencies of our
 experimentation script. To do so, you can run the following command:
 
 ```console
-$ cd EECS4222_Project_1/notebooks/
+$ cd EECS6446_Project/notebooks/
 $ pip install -r requirements.txt
 ```
 
-To open the jupyter notebook (EECS4222_Project_1/notebooks/experiment.ipynb) go to its' directory and run jupyter notebook:
+To open the jupyter notebook (EECS6446_Project/notebooks/experiment.ipynb) go to its' directory and run jupyter notebook:
 
 ```sh
-# cd EECS4222_Project_1/notebooks/
+$ cd EECS6446_Project/notebooks/
 $ jupyter notebook
 ```
 

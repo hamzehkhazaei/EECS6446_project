@@ -21,8 +21,9 @@ nodes while `worker` nodes will be responsible for running those workloads. `Clu
 Throughout this tutorial, we assume a cluster of following nodes: </br>
 1. Master node: server1 with IP address 192.168.0.100
 2. Worker node: server2 with IP address 192.168.0.101
-3. Cluster head: serevr3 with IP address 192.168.0.102
+3. Cluster head: server3 with IP address 192.168.0.102
 
+<!-- Note: You have access to 4 VMs this semester;  -->
 <!-- ## OpenVPN Connection
 
 To gain access to your VMs on our cloud, you will need to connect to our internal
