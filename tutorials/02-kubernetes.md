@@ -73,7 +73,7 @@ Server: Docker Engine - Community
 
 ### Arkade and Other Tools
 
-[Arkade](https://github.com/alexellis/arkade) Is a tool that can be used to simplify the
+[Arkade](https://github.com/alexellis/arkade) is a tool that can be used to simplify the
 process of installing several applications and components necessary for interacting with
 kubernetes clusters. You can learn more about Arkade by reading [this blog post](https://www.openfaas.com/blog/openfaas-arkade/).
 
@@ -87,7 +87,7 @@ you can use the following installation scripts on the **master** VM:
 
 ```sh
 # install arkade
-curl -sLS https://dl.get-arkade.dev | sudo sh
+curl -sLS https://get-arkade.dev | sudo sh
 # Add tools bin directory to PATH
 echo "export PATH=\$HOME/.arkade/bin:\$PATH" >> ~/.bashrc
 # Copy bash completion script
