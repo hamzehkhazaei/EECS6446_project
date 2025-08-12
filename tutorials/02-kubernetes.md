@@ -207,10 +207,10 @@ commands on `Cluster head`.
 ```sh
 # master information
 export MASTER_IP=192.168.0.100
-export MASTER_USER=eecs
+export MASTER_USER=common
 # worker information
 export WORKER_IP=192.168.0.101
-export WORKER_USER=eecs
+export WORKER_USER=common
 k3sup join --ip $WORKER_IP --user $WORKER_USER --server-ip $MASTER_IP --server-user $MASTER_USER --k3s-extra-args "--node-external-ip $WORKER_IP --node-ip $WORKER_IP" --k3s-channel stable --print-command
 ```
 
