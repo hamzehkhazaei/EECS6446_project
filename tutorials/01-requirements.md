@@ -84,7 +84,7 @@ select a SSH configuration file to update -> /Users/username/.ssh/config<br />
 from the bottom of the window select connect button<br />
 (if asked enter the pass phrase for private key and press enter)<br />
 
-We also recommend the installation of the following extensions (From the right panel select Extensions):
+We also recommend the installation of the following extensions (From the right panel, select Extensions):
 
 - `Python` by `Microsoft`
 - `Jupyter` by `Microsoft`
@@ -145,23 +145,23 @@ Your public key has been saved in /home/eecs/.ssh/id_rsa.pub
 
 ```sh
 # This copies the server3's public key to the server1 and server2 authorized keys file
-$ ssh-copy-id eecs@192.168.0.100
-$ ssh-copy-id eecs@192.168.0.101
+$ ssh-copy-id common@192.168.0.100
+$ ssh-copy-id common@192.168.0.101
 ```
 
 ## The 'eecs' user on Ubuntu VMs
-For some of the commands, you need to use `sudo` to run the command with the root access. `sudo` asks password from the user. By adding `eecs ALL=(ALL) NOPASSWD:ALL` at the end of the sudoers file, eecs user won't have to enter password each time using `sudo`. (Do the following part on all of the severs)
+For some of the commands, you need to use `sudo` to run the command with the root access. `sudo` asks for the password from the user. By adding `common ALL=(ALL) NOPASSWD:ALL` at the end of the sudoers file, the `common` user won't have to enter a password each time using `sudo`. (Do the following part on all of the servers)
 
 ```sh
 # open sudoers file
 $ sudo visudo
 
 # add following command at the end of the file
-eecs ALL=(ALL) NOPASSWD:ALL
+common ALL=(ALL) NOPASSWD:ALL
 
 # press ctrl+o (write out), ENTER (save), and then ctrl+x (exit)
 ```
-**Note:** The `eecs` has already have root access so to go to root mode you just need to enter `sudo sh`. 
+**Note:** The `common` has already have root access so to go to root mode you just need to enter `sudo sh`. 
 
 <!-- 
 ```console
