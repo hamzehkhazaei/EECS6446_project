@@ -2,7 +2,7 @@
 
 In this section, we will learn to run some queries on Prometheus to get some of the monitoring
 data about our deployment. You can run the following queries **in the Prometheus ui**
-which can be accessed on `http://MASTER_IP:9090`. You can check [this tutorial](https://opensource.com/article/19/11/introduction-monitoring-prometheus)
+which can be accessed on `http://localhost:9090`. You can check [this tutorial](https://opensource.com/article/19/11/introduction-monitoring-prometheus)
 and [the official docs](https://prometheus.io/docs/prometheus/latest/querying/basics/)
 for an introduction to PromQL, the querying language used by Prometheus. **Notice** to use Microsoft Edge as your web browser.
 

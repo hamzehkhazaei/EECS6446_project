@@ -30,11 +30,11 @@ kubectl create ns monitoring
 helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring \
     --set prometheus.prometheusSpec.scrapeInterval=10s
 # patch service to make it accessible
-kubectl patch svc/prometheus-kube-prometheus-prometheus -n monitoring --patch "$(curl -sSL https://github.com/hamzehkhazaei/EECS6446_Project/blob/master/files/prom-svc.yaml)"
+kubectl patch svc/prometheus-kube-prometheus-prometheus -n monitoring --patch "$(curl -sSL https://raw.githubusercontent.com/hamzehkhazaei/EECS6446_project/master/files/prom-svc.yaml)"
 # patch grafana service to change it to port 3000
 kubectl patch svc/prometheus-grafana -n monitoring --type='json' -p='[{"op": "replace", "path": "/spec/ports/0/port", "value": 3000}]'
 # patch grafana service to change the service to load balancer type
-kubectl patch svc/prometheus-grafana -n monitoring --patch "$(curl -sSL https://github.com/hamzehkhazaei/EECS6446_Project/blob/master/files/grafana-svc.yaml)"
+kubectl patch svc/prometheus-grafana -n monitoring --patch "$(curl -sSL https://raw.githubusercontent.com/hamzehkhazaei/EECS6446_project/master/files/grafana-svc.yaml)"
 ```
 
 Now, let's check the status of the deployment:
@@ -57,20 +57,17 @@ and `prometheus-grafana` shown as `LoadBalancer`.
 
 ```console
 $ kubectl get svc -n monitoring
-NAME                                      TYPE           CLUSTER-IP      EXTERNAL-IP                   PORT(S)                      AGE
-prometheus-kube-prometheus-operator       ClusterIP      10.43.7.223     <none>                        443/TCP                      41m
-prometheus-kube-state-metrics             ClusterIP      10.43.51.45     <none>                        8080/TCP                     41m
-prometheus-kube-prometheus-alertmanager   ClusterIP      10.43.168.32    <none>                        9093/TCP                     41m
-prometheus-prometheus-node-exporter       ClusterIP      10.43.247.38    <none>                        9100/TCP                     41m
-alertmanager-operated                     ClusterIP      None            <none>                        9093/TCP,9094/TCP,9094/UDP   41m
-prometheus-operated                       ClusterIP      None            <none>                        9090/TCP                     41m
-prometheus-kube-prometheus-prometheus     LoadBalancer   10.43.195.135   192.168.0.100,192.168.0.101             9090:31673/TCP               41m
-prometheus-grafana                        LoadBalancer   10.43.243.216   192.168.0.100,192.168.0.101             3000:30331/TCP               41m
+NAME                                      TYPE           CLUSTER-IP      EXTERNAL-IP         PORT(S)                         AGE
+alertmanager-operated                     ClusterIP      None            <none>              9093/TCP,9094/TCP,9094/UDP      14m
+prometheus-grafana                        LoadBalancer   10.43.200.248   10.0.2.4,10.0.2.5   3000:30110/TCP                  14m
+prometheus-kube-prometheus-alertmanager   ClusterIP      10.43.126.236   <none>              9093/TCP,8080/TCP               14m
+prometheus-kube-prometheus-operator       ClusterIP      10.43.187.130   <none>              443/TCP                         14m
+prometheus-kube-prometheus-prometheus     LoadBalancer   10.43.92.244    10.0.2.4,10.0.2.5   9090:30657/TCP,8080:32070/TCP   14m
+prometheus-kube-state-metrics             ClusterIP      10.43.193.126   <none>              8080/TCP                        14m
+prometheus-operated                       ClusterIP      None            <none>              9090/TCP                        14m
+prometheus-prometheus-node-exporter       ClusterIP      10.43.77.30     <none>              9100/TCP                        14m
 ```
-
-Now, you should be able to open Prometheus on `http://MASTER_IP:9090` and Grafana on `http://MASTER_IP:3000`. The
-default username and password for Grafana is `admin` and `prom-operator`. Next, we will try out some queries
-on Prometheus to get several metrics from our deployment. 
+Similar to [tunneling the load generator](03-microservice.md#2.-Create-an-SSH-Tunnel), we will need to tunnel the Prometheus (with port number `9090`) and Grafana (with port number `3000`) ports to our local machine. After tunneling, you should be able to open Prometheus on `http://localhost:9090` and Grafana on `http://localhost:3000`. The default username and password for Grafana is `admin` and `prom-operator`. Next, we will try out some queries on Prometheus to get several metrics from our deployment. 
 
 [Next Step](06-monitoring-interaction.md) -->
 

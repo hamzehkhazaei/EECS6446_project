@@ -6,30 +6,32 @@ Kubernetes' built-in autosclaer called [Horizontal Pod Autoscaler (HPA)](https:/
 
 Clone this project's git repository:
 
-```console
-$ git clone https://github.com/hamzehkhazaei/EECS6446_Project
+```sh
+$ git clone https://github.com/hamzehkhazaei/EECS6446_project
 ```
 
 Before moving to our jupyter notebook, we need to install the dependencies of our
 experimentation script. To do so, you can run the following command:
 
-```console
-$ cd EECS6446_Project/notebooks/
+```sh
+$ cd EECS6446_project/notebooks/
 $ pip install -r requirements.txt
 ```
 
-To open the jupyter notebook (EECS6446_Project/notebooks/experiment.ipynb) go to its' directory and run jupyter notebook:
+To open the jupyter notebook (EECS6446_project/notebooks/experiment.ipynb) go to its' directory and run jupyter notebook:
 
 ```sh
-$ cd EECS6446_Project/notebooks/
+$ cd EECS6446_project/notebooks/
 $ jupyter notebook
 ```
 
-This will give you the link to open jupyter notebook interface. To be able to open the link on your Windows machine, run the following command on a new cmd window:
+This will give you the link to open jupyter notebook interface. To be able to open the link on your remote machine, run the following command on a new terminal:
 
 ```console
-$ ssh -N -f -L localhost:8888:localhost:8888 eecs@192.168.0.100
+$ ssh -N -f -L 8888:localhost:8888 common@localhost -p 46150
 ```
+
+**Replace `46150` with the actual port number you got from `eecsvm ssh ubuntu1`.**
 
 This notebook includes an integration of all the components we have deployed
 to our cluster and uses their respective APIs to get monitoring/actionable data.

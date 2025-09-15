@@ -42,30 +42,29 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
 $ docker version
 Client: Docker Engine - Community
- Version:           20.10.2
- API version:       1.41
- Go version:        go1.13.15
- Git commit:        2291f61
- Built:             Mon Dec 28 16:17:43 2020
+ Version:           28.3.3
+ API version:       1.51
+ Go version:        go1.24.5
+ Git commit:        980b856
+ Built:             Fri Jul 25 11:34:09 2025
  OS/Arch:           linux/amd64
  Context:           default
- Experimental:      true
 
 Server: Docker Engine - Community
  Engine:
-  Version:          20.10.2
-  API version:      1.41 (minimum version 1.12)
-  Go version:       go1.13.15
-  Git commit:       8891c58
-  Built:            Mon Dec 28 16:15:19 2020
+  Version:          28.3.3
+  API version:      1.51 (minimum version 1.24)
+  Go version:       go1.24.5
+  Git commit:       bea959c
+  Built:            Fri Jul 25 11:34:09 2025
   OS/Arch:          linux/amd64
   Experimental:     false
  containerd:
-  Version:          1.4.3
-  GitCommit:        269548fa27e0089a8b8278fc4fc781d7f65a939b
+  Version:          1.7.27
+  GitCommit:        05044ec0a9a75232cad458027ca83437aae3f4da
  runc:
-  Version:          1.0.0-rc92
-  GitCommit:        ff819c7e9184c13b7c2607fe6c30ae19403a7aff
+  Version:          1.2.5
+  GitCommit:        v1.2.5-0-g59923ef
  docker-init:
   Version:          0.19.0
   GitCommit:        de40ad0
@@ -87,7 +86,7 @@ you can use the following installation scripts on the **master** VM:
 
 ```sh
 # install arkade
-curl -sLS https://get-arkade.dev | sudo sh
+curl -sLS https://get.arkade.dev | sudo sh
 # Add tools bin directory to PATH
 echo "export PATH=\$HOME/.arkade/bin:\$PATH" >> ~/.bashrc
 # Copy bash completion script
@@ -106,7 +105,6 @@ arkade get k3sup
 sudo cp ~/.arkade/bin/kubectl /usr/bin/ && sudo chmod +x /usr/bin/kubectl
 # Add helm and k3sup to your PATH variable
 export PATH=$PATH:$HOME/.arkade/bin/
-
 ```
 
 You can test your installation using following commands. **Notice** that the error shown for `kubectl version` is not important, as we have not yet installed our kubernetes cluster.
@@ -116,7 +114,7 @@ $ arkade version
 $ helm version
 $ kubectl version
 $ k3sup version
-
+```
 
 ### Optional Tools
 
@@ -139,7 +137,7 @@ following commands on the master VM:
 # create kubeconfig directory
 mkdir ~/.kube
 # master information
-export MASTER_IP=192.168.0.100
+export MASTER_IP=10.0.2.4
 # install k3s
 k3sup install \
   --local \
@@ -153,14 +151,18 @@ If everything goes smoothly, you should see an output like the following:
 
 ```console
 Running: k3sup install
+2025/09/03 02:55:53 127.0.0.1
+Executing: curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='server --tls-san 127.0.0.1 --node-external-ip 10.0.2.4 --node-ip 10.0.2.4 --bind-address 10.0.2.4 --disable traefik --write-kubeconfig-mode 644' INSTALL_K3S_CHANNEL='stable' sh -
 
 [INFO]  Finding release for channel stable
-[INFO]  Using v1.25.5+k3s2 as release
-[INFO]  Downloading hash https://github.com/k3s-io/k3s/releases/download/v1.25.5+k3s2/sha256sum-amd64.txt
-[INFO]  Skipping binary downloaded, installed k3s matches hash
+[INFO]  Using v1.33.4+k3s1 as release
+[INFO]  Downloading hash https://github.com/k3s-io/k3s/releases/download/v1.33.4+k3s1/sha256sum-amd64.txt
+[INFO]  Downloading binary https://github.com/k3s-io/k3s/releases/download/v1.33.4+k3s1/k3s
+[INFO]  Verifying binary download
+[INFO]  Installing k3s to /usr/local/bin/k3s
 [INFO]  Skipping installation of SELinux RPM
-[INFO]  Skipping /usr/local/bin/kubectl symlink to k3s, command exists in PATH at /home/ubuntu/.arkade/bin/kubectl
-[INFO]  Skipping /usr/local/bin/crictl symlink to k3s, already exists
+[INFO]  Skipping /usr/local/bin/kubectl symlink to k3s, command exists in PATH at /home/common/.arkade/bin/kubectl
+[INFO]  Creating /usr/local/bin/crictl symlink to k3s
 [INFO]  Skipping /usr/local/bin/ctr symlink to k3s, command exists in PATH at /usr/bin/ctr
 [INFO]  Creating killall script /usr/local/bin/k3s-killall.sh
 [INFO]  Creating uninstall script /usr/local/bin/k3s-uninstall.sh
@@ -169,10 +171,10 @@ Running: k3sup install
 [INFO]  systemd: Enabling k3s unit
 Created symlink /etc/systemd/system/multi-user.target.wants/k3s.service → /etc/systemd/system/k3s.service.
 [INFO]  systemd: Starting k3s
-stdout: "[INFO]  Finding release for channel stable\n[INFO]  Using v1.25.5+k3s2 as release\n[INFO]  Downloading hash https://github.com/k3s-io/k3s/releases/download/v1.25.5+k3s2/sha256sum-amd64.txt\n[INFO]  Skipping binary downloaded, installed k3s matches hash\n[INFO]  Skipping installation of SELinux RPM\n[INFO]  Skipping /usr/local/bin/kubectl symlink to k3s, command exists in PATH at /home/ubuntu/.arkade/bin/kubectl\n[INFO]  Skipping /usr/local/bin/crictl symlink to k3s, already exists\n[INFO]  Skipping /usr/local/bin/ctr symlink to k3s, command exists in PATH at /usr/bin/ctr\n[INFO]  Creating killall script /usr/local/bin/k3s-killall.sh\n[INFO]  Creating uninstall script /usr/local/bin/k3s-uninstall.sh\n[INFO]  env: Creating environment file /etc/systemd/system/k3s.service.env\n[INFO]  systemd: Creating service file /etc/systemd/system/k3s.service\n[INFO]  systemd: Enabling k3s unit\n[INFO]  systemd: Starting k3s\n"Saving file to: /home/ubuntu/.kube/config
+stdout: "[INFO]  Finding release for channel stable\n[INFO]  Using v1.33.4+k3s1 as release\n[INFO]  Downloading hash https://github.com/k3s-io/k3s/releases/download/v1.33.4+k3s1/sha256sum-amd64.txt\n[INFO]  Downloading binary https://github.com/k3s-io/k3s/releases/download/v1.33.4+k3s1/k3s\n[INFO]  Verifying binary download\n[INFO]  Installing k3s to /usr/local/bin/k3s\n[INFO]  Skipping installation of SELinux RPM\n[INFO]  Skipping /usr/local/bin/kubectl symlink to k3s, command exists in PATH at /home/common/.arkade/bin/kubectl\n[INFO]  Creating /usr/local/bin/crictl symlink to k3s\n[INFO]  Skipping /usr/local/bin/ctr symlink to k3s, command exists in PATH at /usr/bin/ctr\n[INFO]  Creating killall script /usr/local/bin/k3s-killall.sh\n[INFO]  Creating uninstall script /usr/local/bin/k3s-uninstall.sh\n[INFO]  env: Creating environment file /etc/systemd/system/k3s.service.env\n[INFO]  systemd: Creating service file /etc/systemd/system/k3s.service\n[INFO]  systemd: Enabling k3s unit\n[INFO]  systemd: Starting k3s\n"Saving file to: /home/common/.kube/config
 
 # Test your cluster with:
-export KUBECONFIG=/home/ubuntu/.kube/config
+export KUBECONFIG=/home/common/.kube/config
 kubectl config use-context default
 kubectl get node -o wide
 ```
@@ -192,7 +194,7 @@ ktest-eecs6446        Ready    control-plane,master   6s    v1.20.0+k3s2   192.1
 ```
 
 The status shown as `Ready` shows everything went smoothly and we have completely set up our master node.
-Now, we need to have our other nodes (workers) join the kubernetes cluster. To do so, you need `k3sup` installed
+Now, we need to have our other node (worker) join the kubernetes cluster. To do so, you need `k3sup` installed
 on the cluster head.
 <!-- To do so, download k3sup executable from its [release page](https://github.com/alexellis/k3sup/releases) 
 for windows, or run the following for MacOS and Linux: -->
@@ -201,20 +203,20 @@ for windows, or run the following for MacOS and Linux: -->
 curl -sLS https://get.k3sup.dev | sudo sh
 ```
 
-Next, you need to have the `worker node` join your kubernetes cluster. Run the following
+Next, you need to have the `worker` node join your kubernetes cluster. Run the following
 commands on `Cluster head`.
 
 ```sh
 # master information
-export MASTER_IP=192.168.0.100
+export MASTER_IP=10.0.2.4
 export MASTER_USER=common
 # worker information
-export WORKER_IP=192.168.0.101
+export WORKER_IP=10.0.2.5
 export WORKER_USER=common
-k3sup join --ip $WORKER_IP --user $WORKER_USER --server-ip $MASTER_IP --server-user $MASTER_USER --k3s-extra-args "--node-external-ip $WORKER_IP --node-ip $WORKER_IP" --k3s-channel stable --print-command
+k3sup join --ip $WORKER_IP --user $WORKER_USER --server-ip $MASTER_IP --server-user $MASTER_USER --k3s-extra-args "--node-name worker --node-external-ip $WORKER_IP --node-ip $WORKER_IP" --ssh-key "$HOME/.ssh/id_ed25519" --k3s-channel stable --print-command
 ```
 
-In case you did not include your private and public keys in the default path (`~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`), you need to specify them whenever you want to connect with your remote VM. In order to do so, you need to perform the **join** command in the following way, setting the `KEY_LOCATION` to the path to your private key:
+In case you did not include your private and public keys in the default path (`~/.ssh/id_ed25519` and `~/.ssh/id_ed25519.pub`), you need to specify them whenever you want to connect with your remote VM. In order to do so, you need to perform the **join** command in the following way, setting the `KEY_LOCATION` to the path to your private key:
 
 ```sh
 # set your key location here
@@ -224,7 +226,7 @@ k3sup join --ip $WORKER_IP \
     --user $WORKER_USER \
     --server-ip $MASTER_IP \
     --server-user $MASTER_USER \
-    --k3s-extra-args "--node-external-ip $WORKER_IP --node-ip $WORKER_IP" \
+    --k3s-extra-args "--node-name worker --node-external-ip $WORKER_IP --node-ip $WORKER_IP" \
     --k3s-channel stable \
     --print-command \
     --ssh-key $KEY_LOCATION
@@ -233,22 +235,21 @@ k3sup join --ip $WORKER_IP \
 If everything goes as planned, you should see an output like the following:
 
 ```sh
-$ k3sup join --ip $WORKER_IP --user $WORKER_USER --server-ip $MASTER_IP --server-user $MASTER_USER --k3s-extra-args "--node-external-ip $WORKER_IP --node-ip $WORKER_IP" --k3s-channel stable --print-command
+$ k3sup join --ip $WORKER_IP --user $WORKER_USER --server-ip $MASTER_IP --server-user $MASTER_USER --k3s-extra-args "--node-name worker --node-external-ip $WORKER_IP --node-ip $WORKER_IP" --ssh-key "$HOME/.ssh/id_ed25519" --k3s-channel stable --print-command
 Running: k3sup join
-Server IP: 192.168.0.100
+Joining 10.0.2.5 => 10.0.2.4
 ssh: sudo cat /var/lib/rancher/k3s/server/node-token
 
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx::server:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-ssh: curl -sfL https://get.k3s.io | K3S_URL='https://10.1.1.1:6443' K3S_TOKEN='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx::server:xxxxxxxxxxxxxxxxxxxxxxxxx' INSTALL_K3S_CHANNEL='stable' sh -s - --node-external-ip 192.168.0.101 --node-ip 192.168.0.101
+Received node-token from 10.0.2.4.. ok.
+ssh: curl -sfL https://get.k3s.io | K3S_URL='https://10.0.2.4:6443' K3S_TOKEN='K104d539440f988e43724fefa62d14eae3ebc13593820ecb426cbb0c44e73f840a3::server:969b1a66a280dab817eda91100c7adf3' INSTALL_K3S_CHANNEL='stable' sh -s - --node-name worker --node-external-ip 10.0.2.5 --node-ip 10.0.2.5
 [INFO]  Finding release for channel stable
-[INFO]  Using v1.20.0+k3s2 as release
-[INFO]  Downloading hash https://github.com/rancher/k3s/releases/download/v1.20.0+k3s2/sha256sum-amd64.txt
-[INFO]  Downloading binary https://github.com/rancher/k3s/releases/download/v1.20.0+k3s2/k3s
-[INFO]  Verifying binary download
-[INFO]  Installing k3s to /usr/local/bin/k3s
-[INFO]  Creating /usr/local/bin/kubectl symlink to k3s
-[INFO]  Creating /usr/local/bin/crictl symlink to k3s
-[INFO]  Creating /usr/local/bin/ctr symlink to k3s
+[INFO]  Using v1.33.4+k3s1 as release
+[INFO]  Downloading hash https://github.com/k3s-io/k3s/releases/download/v1.33.4+k3s1/sha256sum-amd64.txt
+[INFO]  Skipping binary downloaded, installed k3s matches hash
+[INFO]  Skipping installation of SELinux RPM
+[INFO]  Skipping /usr/local/bin/kubectl symlink to k3s, already exists
+[INFO]  Skipping /usr/local/bin/crictl symlink to k3s, already exists
+[INFO]  Skipping /usr/local/bin/ctr symlink to k3s, already exists
 [INFO]  Creating killall script /usr/local/bin/k3s-killall.sh
 [INFO]  Creating uninstall script /usr/local/bin/k3s-agent-uninstall.sh
 [INFO]  env: Creating environment file /etc/systemd/system/k3s-agent.service.env
@@ -258,14 +259,13 @@ Created symlink /etc/systemd/system/multi-user.target.wants/k3s-agent.service �
 [INFO]  systemd: Starting k3s-agent
 Logs: Created symlink /etc/systemd/system/multi-user.target.wants/k3s-agent.service → /etc/systemd/system/k3s-agent.service.
 Output: [INFO]  Finding release for channel stable
-[INFO]  Using v1.20.0+k3s2 as release
-[INFO]  Downloading hash https://github.com/rancher/k3s/releases/download/v1.20.0+k3s2/sha256sum-amd64.txt
-[INFO]  Downloading binary https://github.com/rancher/k3s/releases/download/v1.20.0+k3s2/k3s
-[INFO]  Verifying binary download
-[INFO]  Installing k3s to /usr/local/bin/k3s
-[INFO]  Creating /usr/local/bin/kubectl symlink to k3s
-[INFO]  Creating /usr/local/bin/crictl symlink to k3s
-[INFO]  Creating /usr/local/bin/ctr symlink to k3s
+[INFO]  Using v1.33.4+k3s1 as release
+[INFO]  Downloading hash https://github.com/k3s-io/k3s/releases/download/v1.33.4+k3s1/sha256sum-amd64.txt
+[INFO]  Skipping binary downloaded, installed k3s matches hash
+[INFO]  Skipping installation of SELinux RPM
+[INFO]  Skipping /usr/local/bin/kubectl symlink to k3s, already exists
+[INFO]  Skipping /usr/local/bin/crictl symlink to k3s, already exists
+[INFO]  Skipping /usr/local/bin/ctr symlink to k3s, already exists
 [INFO]  Creating killall script /usr/local/bin/k3s-killall.sh
 [INFO]  Creating uninstall script /usr/local/bin/k3s-agent-uninstall.sh
 [INFO]  env: Creating environment file /etc/systemd/system/k3s-agent.service.env
@@ -278,9 +278,9 @@ We should also be able to see the new worker node added to the cluster by runnin
 
 ```sh
 (master) $ kubectl get nodes -o wide
-NAME                   STATUS   ROLES                  AGE   VERSION        INTERNAL-IP     EXTERNAL-IP     OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
-ktest-eecs6446         Ready    control-plane,master   20m   v1.20.0+k3s2   192.168.0.100        <none>          Ubuntu 22.04.1 LTS   5.4.0-56-generic   containerd://1.4.3-k3s1
-ktest2-eecs6446        Ready    <none>                 31s   v1.20.0+k3s2   192.168.0.101        192.168.0.101        Ubuntu 22.04.1 LTS   5.4.0-56-generic   containerd://1.4.3-k3s1
+NAME     STATUS   ROLES                  AGE   VERSION        INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
+common   Ready    control-plane,master   12m   v1.33.4+k3s1   10.0.2.4      10.0.2.4      Ubuntu 24.04.3 LTS   6.8.0-71-generic   containerd://2.0.5-k3s2
+worker   Ready    <none>                 93s   v1.33.4+k3s1   10.0.2.5      10.0.2.5      Ubuntu 24.04.3 LTS   6.8.0-71-generic   containerd://2.0.5-k3s2
 ```
 
 Notice the `Ready` status for both VMs.

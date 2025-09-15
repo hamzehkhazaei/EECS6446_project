@@ -4,92 +4,50 @@ To move along this tutorial and set up the required tools and applications, you 
 need access to a cloud computing infrastructure including a set of Virtual Machines (VMs).
 
 
-<!-- You should have already received an email containing above information. -->
+We’ll be using the [EECSVM Service](https://wiki.eecs.yorku.ca/dept/tdb/services:eecsvm) to create three Ubuntu machines. You can reach this service through [remotelab](https://remotelab.eecs.yorku.ca/#/). When connecting, make sure to choose one of the following servers: scarlet, rose, or ruby. To check if you have access, run the following command in remotelab:
 
-So far, you should be able to get connected to the Windows machine by using RDP installed on your laptop. Also, you should have Hyper-V Manager installed on Windows. Make sure you have access to these resources and are comfortable using the `bash` to interact with the server before you continue this tutorial.
+```sh
+% eecsvm access
+You have access to EECSVM service.
+```
 
-<!-- For this tutorial,
-imagine the provided ssh private and public key is stored in `~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`
-and thus will automatically be used for ssh communications; in case you stored the keys in a
-different location, you need to use the `-i` option for all ssh commands, like below:
+Next, we need to install the `eecs6446-hkh` bundle, which sets up three Ubuntu VMs for you.
+```sh
+% eecsvm installbundle eecs6446-hkh
+```
+This will create three virtual machines named ubuntu1, ubuntu2, and ubuntu3. You’ll see messages showing their creation and registration (with UUIDs and progress percentages).
 
-`# ssh username@ip_address -i private_key` -->
+To make sure the three VMs were installed correctly, run:
+```sh
+% eecsvm list installed
+ubuntu1
+ubuntu2
+ubuntu3
+```
+
+After installation, you can start and interact with any VM using:
+```sh
+% eecsvm start <vmname>
+```
+For example:
+```sh
+% eecsvm start ubuntu1
+Waiting for VM "ubuntu1" to power on...
+VM "ubuntu1" has been successfully started.
+```
+
+Alternatively, you can manage the VMs directly through the Oracle VM VirtualBox application, which is already installed on the remotelab servers.
+
+Make sure all three VMs are running before moving on to the next step.
 
 To set up a Kubernetes cluster, we will need different VMs to take `master`, `worker`, and `cluster head` roles.
 The `master` nodes will be responsible for keeping the cluster running and scheduling resources on available
-nodes while `worker` nodes will be responsible for running those workloads. `Cluster head` manages the nodes in the Kubernetes cluster and joins the worker node to the master.
+nodes while `worker` nodes will be responsible for running those workloads. `Cluster head` manages the nodes in the Kubernetes cluster and joins the worker node to the master. If you start the VMs in order, each one will be assigned a predictable IP address within VirtualBox’s internal NAT network.
 Throughout this tutorial, we assume a cluster of following nodes: </br>
-1. Master node: server1 with IP address 192.168.0.100
-2. Worker node: server2 with IP address 192.168.0.101
-3. Cluster head: server3 with IP address 192.168.0.102
+1. Master node: ubuntu1 with IP address 10.0.2.4
+2. Worker node: ubuntu2 with IP address 10.0.2.5
+3. Cluster head: ubuntu3 with IP address 10.0.2.6
 
-#### Note: you have access to 4 VMs this semester; you may use the 4th one as your second Worker node.
-
-<!-- ## OpenVPN Connection
-
-To gain access to your VMs on our cloud, you will need to connect to our internal
-network. To do so, you can use OpenVPN Connect to connect using the configuration file provided
-to you. To use it, first download `OpenVPN Connect` from [their website](https://openvpn.net/download-open-vpn/). 
-After the installation, you will be asked to create or import
-a connection configuration. To do so, select the `File` tab and drag the provided connection
-configuration onto OpenVPN Connect. Then, you will need to give the connection a name
-and will be able to connect to the VPN server.
-
-After connecting to the OpenVPN connection, you can test your connection by pinging the internal IP addresses
-of the instances provided to you. -->
-
-## SSH Access
-
-To ssh onto the master or worker, use the `eecs` user. The password for 'eecs' user is 'eecs'. Open Command Prompt application (cmd.exe) on Windows for 3 times and connect to the server1, server2, and server3 through ssh.
-
-```sh
-# ssh to the master
-$ ssh eecs@192.168.0.100
-```
-```sh
-# ssh to the worker
-$ ssh eecs@192.168.0.101
-```
-```sh
-# ssh to the cluster head
-$ ssh eecs@192.168.0.102
-```
-
-<!-- 
-To ssh onto the master or worker, use the default `ubuntu` user:
-
-```sh
-# ssh to the master
-$ ssh ubuntu@10.1.1.1
-# ssh to the worker
-$ ssh ubuntu@10.1.1.2
-# ssh to master if the private ssh key is not stored in the default place
-$ ssh ubuntu@10.1.1.1 -i /PATH/TO/SSHKEY
-``` -->
-
-To learn more about SSH and how you can use it, watch [this tutorial](https://youtu.be/YS5Zh7KExvE).
-
-<!-- ## Visual Studio Code
-
-The easiest way to interact with your virtual machine is using Visual Studio Code 
-Remote Development via SSH. To use this feature, you need to install the
-[Visual Studio Code](https://code.visualstudio.com/) and the [Remote Development using SSH](https://code.visualstudio.com/docs/remote/ssh#_connect-to-a-remote-host)
-extension. You can follow the VSCode tutorials to connect to the `master VM` to follow with the
-tutorials.<br />
-VS code -> View tab -> Command Palette <br />
-Option: **Remote SSH: Connect to Host**<br />
-Add new SSH Host:<br />
-ssh eecs@192.168.0.100 <br/>
-select a SSH configuration file to update -> /Users/username/.ssh/config<br />
-from the bottom of the window select connect button<br />
-(if asked enter the pass phrase for private key and press enter)<br />
-
-We also recommend the installation of the following extensions (From the right panel, select Extensions):
-
-- `Python` by `Microsoft`
-- `Jupyter` by `Microsoft`
-- `Kubernetes` by `Microsoft`
-- `Pylance` by `Microsoft` -->
 
 ## Initial Setup
 
@@ -104,52 +62,54 @@ In case you will be using more than one VM for your cluster, make sure that ther
 is network connectivity between your VMs by checking their `ping` status.
 
 ```sh
-# ssh to the master and check connectivity with the workers
-(master) $ ping 192.168.0.101
+# ssh to the master from cluster head and check connectivity
+(cluster head) $ ping 10.0.2.4
 ```
 
-Make sure to replace `192.168.0.101` with your worker VM IP, if different.
+Make sure to replace `10.0.2.4` with your master VM IP, if different.
 You should see an output like this:
 
 ```console
-Pinging 192.168.0.101 with 32 bytes of data:
-Reply from 192.168.0.101: bytes=32 time<1ms TTL=64
-Reply from 192.168.0.101: bytes=32 time<1ms TTL=64
-Reply from 192.168.0.101: bytes=32 time<1ms TTL=64
-
-Ping statistics for 192.168.0.101:
-    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
-Approximate round trip times in milli-seconds:
-    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+ping 10.0.2.4
+PING 10.0.2.4 (10.0.2.4) 56(84) bytes of data.
+64 bytes from 10.0.2.4: icmp_seq=1 ttl=64 time=0.404 ms
+64 bytes from 10.0.2.4: icmp_seq=2 ttl=64 time=0.316 ms
+64 bytes from 10.0.2.4: icmp_seq=3 ttl=64 time=0.385 ms
+64 bytes from 10.0.2.4: icmp_seq=4 ttl=64 time=0.288 ms
+^C
+--- 10.0.2.4 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3098ms
+rtt min/avg/max/mdev = 0.288/0.348/0.404/0.047 ms
 ```
 
 ## SSH-key
 
-SSH keys are used to establish secure connections between two devices, allowing for secure and authenticated access to remote systems. SSH keys provide a more secure way to log in to a remote server than using a password alone. An SSH key pair typically consists of a private key, which should be kept confidential and stored on the client machine, and a public key, which can be shared and stored on remote servers. When connecting to a remote server using SSH, the client first authenticates using its private key, and the server then verifies the authenticity of the client's public key. If the public key matches the private key, the server grants access to the client. 
-In this project, we generate ssh key on server3 and then copy the ssh public key to server1 and server2.
+SSH keys are used to establish secure connections between two devices, allowing for secure and authenticated access to remote systems. SSH keys provide a more secure way to log in to a remote server than using a password alone. An SSH key pair typically consists of a private key, which should be kept confidential and stored on the client machine, and a public key, which can be shared and stored on remote servers. When connecting to a remote server using SSH, the client first authenticates using its private key, and the server then verifies the authenticity of the client's public key. If the public key matches the private key, the server grants access to the client. To learn more about SSH and how you can use it, watch [this tutorial](https://youtu.be/YS5Zh7KExvE).
+
+In this project, we generate ssh key on ubuntu3 and then copy the ssh public key to ubuntu1 and ubuntu2.
 
 
 
 ```console
-# Generating ssh key
+# Generating ssh key on ubuntu3
 $ ssh-keygen
 
 Generating public/private rsa key pair.
-Enter file in which to save the key (/home/eecs/.ssh/id_rsa): [enter]
+Enter file in which to save the key (/home/common/.ssh/id_rsa): [enter]
 Enter passphrase (empty for no passphrase): [enter]
 Enter same passphrase again: [enter]
-Your identification has been saved in /home/eecs/.ssh/id_rsa
-Your public key has been saved in /home/eecs/.ssh/id_rsa.pub
+Your identification has been saved in /home/common/.ssh/id_rsa
+Your public key has been saved in /home/common/.ssh/id_rsa.pub
 ...
 ```
 
 ```sh
-# This copies the server3's public key to the server1 and server2 authorized keys file
-$ ssh-copy-id common@192.168.0.100
-$ ssh-copy-id common@192.168.0.101
+# This copies the ubuntu3's public key to the ubuntu1 and ubuntu2 authorized keys file
+$ ssh-copy-id common@10.0.2.4
+$ ssh-copy-id common@10.0.2.5
 ```
 
-## The 'eecs' user on Ubuntu VMs
+## The 'common' user on Ubuntu VMs
 For some of the commands, you need to use `sudo` to run the command with the root access. `sudo` asks for the password from the user. By adding `common ALL=(ALL) NOPASSWD:ALL` at the end of the sudoers file, the `common` user won't have to enter a password each time using `sudo`. (Do the following part on all of the servers)
 
 ```sh
@@ -210,7 +170,7 @@ After the installation is complete, you can test your installation using the fol
 
 ```console
 $ conda --version
-conda 22.11.1
+conda 25.7.0
 ```
 
 ## Jupyter Notebook Installation
