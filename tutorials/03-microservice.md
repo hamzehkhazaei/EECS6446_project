@@ -61,12 +61,15 @@ Use the port from the previous step to forward the application’s port (8089 in
 
 ```sh
 ssh -N -f -L 8089:localhost:8089 common@localhost -p 46150
+ssh -N -f -L 8080:localhost:80 common@localhost -p 46150
 ```
 
 Replace `46150` with the actual port number you got from `eecsvm ssh ubuntu1`.
 
 ### 3. Access the Website
-Once the tunnel is running, open a browser (e.g., Firefox) on the remote machine and go to `http://localhost:8089`. If everything has worked well, you will be able to open the online store deployed and see the load generator plots and statistics shown. We will later on use the load generator API to change the number of simulated users and query the quality of service statistics from the load generator. 
+After the all the services are up and running, you can open the deployed website by openning the Firefox browser and going to the address `http://localhost:8080`. You can also open the load generator UI by going to the address `http://localhost:8089`.
+
+If everything has worked well, you will be able to open the online store deployed and see the load generator plots and statistics shown. We will later on use the load generator API to change the number of simulated users and query the quality of service statistics from the load generator.
 
 [Next Step](04-loadgenerator.md) -->
 

@@ -189,8 +189,8 @@ Which should yield an output like the following:
 
 ```console
 $ kubectl get nodes -o wide
-NAME                  STATUS   ROLES                  AGE   VERSION        INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
-ktest-eecs6446        Ready    control-plane,master   6s    v1.20.0+k3s2   192.168.0.100        <none>        Ubuntu 22.04.1 LTS   5.4.0-56-generic   containerd://1.4.3-k3s1
+NAME     STATUS   ROLES                  AGE   VERSION        INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
+common   Ready    control-plane,master   13d   v1.33.4+k3s1   10.0.2.4      10.0.2.4      Ubuntu 24.04.3 LTS   6.8.0-79-generic   containerd://2.0.5-k3s2
 ```
 
 The status shown as `Ready` shows everything went smoothly and we have completely set up our master node.
@@ -279,8 +279,8 @@ We should also be able to see the new worker node added to the cluster by runnin
 ```sh
 (master) $ kubectl get nodes -o wide
 NAME     STATUS   ROLES                  AGE   VERSION        INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
-common   Ready    control-plane,master   12m   v1.33.4+k3s1   10.0.2.4      10.0.2.4      Ubuntu 24.04.3 LTS   6.8.0-71-generic   containerd://2.0.5-k3s2
-worker   Ready    <none>                 93s   v1.33.4+k3s1   10.0.2.5      10.0.2.5      Ubuntu 24.04.3 LTS   6.8.0-71-generic   containerd://2.0.5-k3s2
+common   Ready    control-plane,master   13d   v1.33.4+k3s1   10.0.2.4      10.0.2.4      Ubuntu 24.04.3 LTS   6.8.0-79-generic   containerd://2.0.5-k3s2
+worker   Ready    <none>                 13d   v1.33.4+k3s1   10.0.2.5      10.0.2.5      Ubuntu 24.04.3 LTS   6.8.0-79-generic   containerd://2.0.5-k3s2
 ```
 
 Notice the `Ready` status for both VMs.

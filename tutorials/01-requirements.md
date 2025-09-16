@@ -36,7 +36,7 @@ Waiting for VM "ubuntu1" to power on...
 VM "ubuntu1" has been successfully started.
 ```
 
-Alternatively, you can manage the VMs directly through the Oracle VM VirtualBox application, which is already installed on the remotelab servers.
+Alternatively, you can manage the VMs directly through the Oracle VM VirtualBox application, which is already installed on the remotelab servers. By default, both the username and password for all machines are set to `common`.
 
 Make sure all three VMs are running before moving on to the next step.
 
@@ -62,7 +62,7 @@ In case you will be using more than one VM for your cluster, make sure that ther
 is network connectivity between your VMs by checking their `ping` status.
 
 ```sh
-# ssh to the master from cluster head and check connectivity
+# ping to the master from cluster head and check connectivity
 (cluster head) $ ping 10.0.2.4
 ```
 
